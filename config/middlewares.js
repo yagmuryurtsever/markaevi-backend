@@ -1,25 +1,39 @@
 'use strict';
 
-module.exports = {
-  settings: {
-    cors: {
-      enabled: true,
-      origin: [
-        'https://www.markaevi.com.tr',
-        'https://markaevi.com.tr',
-        'http://localhost:3000',
-        'http://localhost:1337'
-      ],
-      methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS'],
-      headers: [
-        'Content-Type',
-        'Authorization',
-        'X-Frame-Options',
-        'X-Requested-With',
-        'Accept',
-        'Origin'
-      ],
-      credentials: true
+module.exports = [
+  'strapi::errors',
+  {
+    name: 'strapi::security',
+    config: {
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'connect-src': ["'self'", 'https:'],
+          'img-src': [
+            "'self'",
+            'data:',
+            'blob:',
+            'market-assets.strapi.io',
+            'res.cloudinary.com', // Cloudinary kullanıyorsanız
+          ],
+          'media-src': [
+            "'self'",
+            'data:',
+            'blob:',
+            'market-assets.strapi.io',
+            'res.cloudinary.com',
+          ],
+          upgradeInsecureRequests: null,
+        },
+      },
     },
   },
-};
+  'strapi::cors',
+  'strapi::poweredBy',
+  'strapi::logger',
+  'strapi::query',
+  'strapi::body',
+  'strapi::session',
+  'strapi::favicon',
+  'strapi::public',
+];
